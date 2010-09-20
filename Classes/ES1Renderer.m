@@ -46,46 +46,7 @@
 
     	NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"goya.jpg"];
         NSLog(@"Texture path: %@", fullpath);
-        
-//        UIImage *img = [UIImage imageWithContentsOfFile:fullpath];
-//        NSLog(@"Image: %x", img);
-//
-//        CGImageRef cgimage = img.CGImage;
-//        
-//        float width = CGImageGetWidth(cgimage);
-//        float height = CGImageGetHeight(cgimage);
-//        NSLog(@"width: %f, height: %f", width, height);
-//        CGRect bounds = CGRectMake(0, 0, width, height);
-//        CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-//        
-//        void *image = malloc(width * height * 4);
-//        CGContextRef imgContext = CGBitmapContextCreate(image,
-//                                                        width, height,
-//                                                        8, 4 * width, colourSpace,
-//                                                        kCGImageAlphaPremultipliedLast);
-//    
-//        CGColorSpaceRelease(colourSpace);
-//        CGContextClearRect(imgContext, bounds);
-//        CGContextTranslateCTM (imgContext, 0, height);
-//        CGContextScaleCTM (imgContext, 1.0, -1.0);
-//        CGContextDrawImage(imgContext, bounds, cgimage);
-//        
-//        CGContextRelease(imgContext);
-//        
-//        glBindTexture(GL_TEXTURE_2D, texture[0]);
-//        
-//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR); 
-//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-//        
-//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-//        
-//        GLenum err = glGetError();
-//        if (err != GL_NO_ERROR)
-//            NSLog(@"Error. glError: 0x%04X\n", err);
-        
-//        free(image);
-//        [img release];
-        
+                
         UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
         NSLog(@"Image: %x", loadImage);
         tex1 = [[GLTexture alloc] initWithImage: loadImage];
@@ -99,20 +60,6 @@
 - (void)render
 {
     // Replace the implementation of this method to do your own custom drawing
-
-    static const GLfloat squareVertices[] = {
-        -0.5f,  -0.33f,
-         0.5f,  -0.33f,
-        -0.5f,   0.33f,
-         0.5f,   0.33f,
-    };
-
-    static const GLubyte squareColors[] = {
-        255, 255,   0, 255,
-        0,   255, 255, 255,
-        0,     0,   0,   0,
-        255,   0, 255, 255,
-    };
 
     static float transY = 0.0f;
 
@@ -132,43 +79,15 @@
     glTranslatef(0.0f, (GLfloat)(sinf(transY)/2.0f), 0.0f);
     transY += 0.075f;
 
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
-
-//    glVertexPointer(2, GL_FLOAT, 0, squareVertices);
-//    glEnableClientState(GL_VERTEX_ARRAY);
-//    glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
-//    glEnableClientState(GL_COLOR_ARRAY);
-
-        //    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
         // Textures
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
     [tex1 drawAtPoint:CGPointMake(0, 0) withRotation: 0 withScale: 0.005];
-//    glBindTexture(GL_TEXTURE_2D, texture[0]);
-//    NSLog(@"tex: %d", texture[0]);
 
-        //glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
-//    static const float textureVertices[] = {
-//        -0.5f, -0.33f,
-//        0.5f, -0.33f,
-//        -0.5f,  0.33f,
-//        0.5f,  0.33f,   
-//    };
-//
-//    static const float textureCoords[] = {
-//        0.0f, 0.0f,
-//        0.0f, 0.515625f,
-//        0.12890625f, 0.0f,
-//        0.12890625f, 0.515625f,
-//    };
-//
-//    glVertexPointer(2, GL_FLOAT, 0, textureVertices);
-//    glTexCoordPointer(2, GL_FLOAT, 0, textureCoords);
-//    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-//
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     
