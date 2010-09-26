@@ -52,6 +52,28 @@
         tex1 = [[GLTexture alloc] initWithImage: loadImage];
         
             //        NSLog(@"Tex: %x", tex1);
+
+            // Box2D
+        world = new b2World(b2Vec2(0, 0), false);
+        
+        b2BodyDef bodyDef;
+        bodyDef.type = b2_staticBody;
+        bodyDef.position.Set(0, 0);
+        b2Body* body = world->CreateBody(&bodyDef);
+        
+        float wext = size.width / 2;
+        float hext = size.height / 2;
+        b2PolygonShape shapes[4];
+        shapes[0].SetAsBox(wext, 1, b2Vec2(wext, -1), 0);
+        shapes[1].SetAsBox(wext, 1, b2Vec2(wext, size.height + 1), 0);
+        shapes[2].SetAsBox(1, hext, b2Vec2(-1, hext), 0);
+        shapes[3].SetAsBox(1, hext, b2Vec2(size.width + 1, hext), 0);
+        
+        for (int i = 0; i < 4; ++i) {
+            b2FixtureDef fixtureDef;
+            fixtureDef.shape = &shapes[i];
+            body->CreateFixture(&fixtureDef);
+        }        
     }
 
     return self;

@@ -12,6 +12,7 @@
 #import <OpenGLES/ES1/glext.h>
 
 #import "GLTexture.h"
+#import <Box2D/Box2D.h>
 
 @interface ES1Renderer : NSObject <ESRenderer>
 {
@@ -28,6 +29,10 @@
     // texutures
     GLTexture *tex1;
     GLuint texture[1];
+    
+        // Box2D
+    CGSize size;
+    b2World *world;
 }
 
 - (void)render;
