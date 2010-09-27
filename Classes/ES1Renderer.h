@@ -31,8 +31,8 @@
     GLuint texture[1];
     
         // Box2D
-    CGSize size;
     b2World *world;
+    b2Body *body;
 }
 
 - (void)render;

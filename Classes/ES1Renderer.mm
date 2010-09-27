@@ -54,12 +54,14 @@
             //        NSLog(@"Tex: %x", tex1);
 
             // Box2D
-        world = new b2World(b2Vec2(0, 0), false);
+        CGSize size = CGSizeMake(10, 10);
+        printf("w: %f, h: %f\n", size.width, size.height);
+        world = new b2World(b2Vec2(0, -10), false);
         
         b2BodyDef bodyDef;
         bodyDef.type = b2_staticBody;
         bodyDef.position.Set(0, 0);
-        b2Body* body = world->CreateBody(&bodyDef);
+        b2Body* edge_body = world->CreateBody(&bodyDef);
         
         float wext = size.width / 2;
         float hext = size.height / 2;
@@ -72,8 +74,27 @@
         for (int i = 0; i < 4; ++i) {
             b2FixtureDef fixtureDef;
             fixtureDef.shape = &shapes[i];
+            edge_body->CreateFixture(&fixtureDef);
+        }
+
+        {
+            b2BodyDef bodyDef;
+            bodyDef.type = b2_dynamicBody;
+            bodyDef.position.Set(5.0f, 9.0f);
+            body = world->CreateBody(&bodyDef);
+            
+            b2PolygonShape dynamicBox;
+            dynamicBox.SetAsBox(1.0f, 1.0f);
+            
+            b2FixtureDef fixtureDef;
+            fixtureDef.shape = &dynamicBox;
+            fixtureDef.density = 1.0f;
+            fixtureDef.friction = 0.3f;
+            
             body->CreateFixture(&fixtureDef);
-        }        
+        }
+        
+        
     }
 
     return self;
@@ -81,7 +102,19 @@
 
 - (void)render
 {
-    // Replace the implementation of this method to do your own custom drawing
+        // Box2D
+    float32 timeStep = 1.0f / 30.0f;
+    int32 velocityIterations = 6;
+    int32 positionIterations = 2;
+    world->Step(timeStep, velocityIterations, positionIterations);
+    
+    world->ClearForces();
+    b2Vec2 position = body->GetPosition();
+    float32 angle = body->GetAngle();
+    printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
+
+        
+        // Replace the implementation of this method to do your own custom drawing
 
     static float transY = 0.0f;
 
@@ -98,7 +131,8 @@
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glTranslatef(0.0f, (GLfloat)(sinf(transY)/2.0f), 0.0f);
+//    glTranslatef(0.0f, (GLfloat)(sinf(transY)/2.0f), 0.0f);
+    glTranslatef((position.x - 5) / 10.0, (position.y - 5) / 10.0, 0.0f);
     transY += 0.075f;
 
     glClearColor(0, 0, 0, 1);
@@ -117,6 +151,9 @@
     // This call is redundant, but needed if dealing with multiple renderbuffers.
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, colorRenderbuffer);
     [context presentRenderbuffer:GL_RENDERBUFFER_OES];
+
+
+
 }
 
 - (BOOL)resizeFromLayer:(CAEAGLLayer *)layer
