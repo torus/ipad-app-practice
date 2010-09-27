@@ -14,6 +14,8 @@
 #import "GLTexture.h"
 #import <Box2D/Box2D.h>
 
+#import "GLTextureAdapter.h"
+
 @interface ES1Renderer : NSObject <ESRenderer>
 {
 @private
@@ -27,8 +29,7 @@
     GLuint defaultFramebuffer, colorRenderbuffer;
     
     // texutures
-    GLTexture *tex1;
-    GLuint texture[1];
+    GLTextureAdapter *tex1;
     
         // Box2D
     b2World *world;

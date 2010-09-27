@@ -21,8 +21,6 @@ GLTextureAdapter::GLTextureAdapter(const char* filename)
     NSLog(@"Image: %x", loadImage);
     
     entity = [[GLTexture alloc] initWithImage:loadImage];
-    
-    [loadImage dealloc];
 }
 
 GLTextureAdapter::~GLTextureAdapter()

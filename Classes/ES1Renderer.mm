@@ -42,17 +42,8 @@
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_SRC_COLOR);
         
-        glGenTextures(1, texture);
-
-    	NSString *fullpath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"goya.jpg"];
-        NSLog(@"Texture path: %@", fullpath);
-                
-        UIImage *loadImage = [UIImage imageWithContentsOfFile:fullpath];
-        NSLog(@"Image: %x", loadImage);
-        tex1 = [[GLTexture alloc] initWithImage: loadImage];
+        tex1 = new GLTextureAdapter("goya.jpg");
         
-            //        NSLog(@"Tex: %x", tex1);
-
             // Box2D
         CGSize size = CGSizeMake(10, 10);
         printf("w: %f, h: %f\n", size.width, size.height);
@@ -142,7 +133,7 @@
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    [tex1 drawAtPoint:CGPointMake(0, 0) withRotation: 0 withScale: 0.005];
+    tex1->draw(0, 0, 0, 0.005);
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
