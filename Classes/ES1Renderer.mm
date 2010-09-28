@@ -15,6 +15,7 @@ extern "C" {
 #import "lauxlib.h"
 int luaopen_gltexture(lua_State* L); // declare the wrapped module
 int luaopen_gl(lua_State* L); // declare the wrapped module
+int luaopen_b2(lua_State* L); // declare the wrapped module
 }
 
 @implementation ES1Renderer
@@ -55,6 +56,7 @@ int luaopen_gl(lua_State* L); // declare the wrapped module
         luaopen_base(luastat);
         luaopen_gltexture(luastat);
         luaopen_gl(luastat);
+        luaopen_b2(luastat);
 
         NSString *fullpath = [[[NSBundle mainBundle] bundlePath]
                               stringByAppendingPathComponent:@"goya.lua"];

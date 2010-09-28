@@ -52,6 +52,7 @@
 		9C9E24431250801E00B6A127 /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 9C9E24251250801E00B6A127 /* lzio.c */; };
 		9CE83E4E1251CC530075D1B7 /* gl_wrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE83E4D1251CC530075D1B7 /* gl_wrap.m */; };
 		9CE83E771251CED30075D1B7 /* goya.lua in Resources */ = {isa = PBXBuildFile; fileRef = 9CE83E761251CED30075D1B7 /* goya.lua */; };
+		9CE83EE31251F1020075D1B7 /* Box2D_wrap.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CE83EE21251F1020075D1B7 /* Box2D_wrap.mm */; };
 		9CFDCC4112475A91000801B0 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDCBF512475A91000801B0 /* b2BroadPhase.cpp */; };
 		9CFDCC4212475A91000801B0 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDCBF712475A91000801B0 /* b2CollideCircle.cpp */; };
 		9CFDCC4312475A91000801B0 /* b2CollidePolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDCBF812475A91000801B0 /* b2CollidePolygon.cpp */; };
@@ -168,6 +169,7 @@
 		9CE83E4D1251CC530075D1B7 /* gl_wrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gl_wrap.m; sourceTree = "<group>"; };
 		9CE83E761251CED30075D1B7 /* goya.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = goya.lua; path = lua/goya.lua; sourceTree = "<group>"; };
 		9CE83E7D1251CEFE0075D1B7 /* goya.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = goya.lua; sourceTree = "<group>"; };
+		9CE83EE21251F1020075D1B7 /* Box2D_wrap.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Box2D_wrap.mm; sourceTree = "<group>"; };
 		9CFDCBF312475A91000801B0 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		9CFDCBF512475A91000801B0 /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
 		9CFDCBF612475A91000801B0 /* b2BroadPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2BroadPhase.h; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				9CE83EE21251F1020075D1B7 /* Box2D_wrap.mm */,
 				9C9E23F312507F4200B6A127 /* Lua */,
 				9CFDCBF212475A91000801B0 /* Box2D */,
 				32CA4F630368D1EE00C91783 /* Box2DPractice_Prefix.pch */,
@@ -668,6 +671,7 @@
 				9C9E24421250801E00B6A127 /* lvm.c in Sources */,
 				9C9E24431250801E00B6A127 /* lzio.c in Sources */,
 				9CE83E4E1251CC530075D1B7 /* gl_wrap.m in Sources */,
+				9CE83EE31251F1020075D1B7 /* Box2D_wrap.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
