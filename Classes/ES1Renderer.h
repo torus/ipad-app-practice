@@ -16,6 +16,10 @@
 
 #import "GLTextureAdapter.h"
 
+extern "C" {
+#import "lua.h"
+}
+
 @interface ES1Renderer : NSObject <ESRenderer>
 {
 @private
@@ -34,6 +38,9 @@
         // Box2D
     b2World *world;
     b2Body *body;
+    
+        // Lua
+    lua_State *luastat;
 }
 
 - (void)render;

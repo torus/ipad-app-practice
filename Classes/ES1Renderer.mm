@@ -9,6 +9,13 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "ES1Renderer.h"
 
+extern "C" {
+#import "lua.h"
+#import "lualib.h"
+#import "lauxlib.h"
+int luaopen_gltexture(lua_State* L); // declare the wrapped module
+}
+
 @implementation ES1Renderer
 
 // Create an OpenGL ES 1.1 context
@@ -41,8 +48,13 @@
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_SRC_COLOR);
+
         
-        tex1 = new GLTextureAdapter("goya.jpg");
+        luastat = lua_open();
+        luaopen_base(luastat);
+        luaopen_gltexture(luastat);
+
+        luaL_dostring(luastat, "tex1 = gltexture.GLTextureAdapter('goya.jpg')\n");
         
             // Box2D
         CGSize size = CGSizeMake(10, 10);
@@ -102,7 +114,7 @@
     world->ClearForces();
     b2Vec2 position = body->GetPosition();
     float32 angle = body->GetAngle();
-    printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
+//    printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
 
         
         // Replace the implementation of this method to do your own custom drawing
@@ -133,7 +145,7 @@
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    tex1->draw(0, 0, 0, 0.005);
+    luaL_dostring(luastat, "tex1:draw(0, 0, 0, 0.005)");
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
