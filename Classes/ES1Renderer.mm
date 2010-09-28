@@ -14,6 +14,7 @@ extern "C" {
 #import "lualib.h"
 #import "lauxlib.h"
 int luaopen_gltexture(lua_State* L); // declare the wrapped module
+int luaopen_gl(lua_State* L); // declare the wrapped module
 }
 
 @implementation ES1Renderer
@@ -38,21 +39,22 @@ int luaopen_gltexture(lua_State* L); // declare the wrapped module
         glBindRenderbufferOES(GL_RENDERBUFFER_OES, colorRenderbuffer);
         glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, colorRenderbuffer);
 
-            // load texture
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-            // Disable Depth
-        glDisable(GL_DEPTH_TEST);
-        
-            // Load textures
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_ONE, GL_SRC_COLOR);
+//            // load texture
+//        glMatrixMode(GL_MODELVIEW);
+//        glLoadIdentity();
+//            // Disable Depth
+//        glDisable(GL_DEPTH_TEST);
+//        
+//            // Load textures
+//        glEnable(GL_TEXTURE_2D);
+//        glEnable(GL_BLEND);
+//        glBlendFunc(GL_ONE, GL_SRC_COLOR);
 
         
         luastat = lua_open();
         luaopen_base(luastat);
         luaopen_gltexture(luastat);
+        luaopen_gl(luastat);
 
         NSString *fullpath = [[[NSBundle mainBundle] bundlePath]
                               stringByAppendingPathComponent:@"goya.lua"];
@@ -129,31 +131,31 @@ int luaopen_gltexture(lua_State* L); // declare the wrapped module
     // This application only creates a single context which is already set current at this point.
     // This call is redundant, but needed if dealing with multiple contexts.
     [EAGLContext setCurrentContext:context];
-
+        //
     // This application only creates a single default framebuffer which is already bound at this point.
     // This call is redundant, but needed if dealing with multiple framebuffers.
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, defaultFramebuffer);
     glViewport(0, 0, backingWidth, backingHeight);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-//    glTranslatef(0.0f, (GLfloat)(sinf(transY)/2.0f), 0.0f);
-    glTranslatef((position.x - 5) / 10.0, (position.y - 5) / 10.0, 0.0f);
-    transY += 0.075f;
-
-    glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-        // Textures
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
+//    glMatrixMode(GL_MODELVIEW);
+//    glLoadIdentity();
+////    glTranslatef(0.0f, (GLfloat)(sinf(transY)/2.0f), 0.0f);
+//    glTranslatef((position.x - 5) / 10.0, (position.y - 5) / 10.0, 0.0f);
+//    transY += 0.075f;
+//
+//    glClearColor(0, 0, 0, 1);
+//    glClear(GL_COLOR_BUFFER_BIT);
+//
+//        // Textures
+//    glEnableClientState(GL_VERTEX_ARRAY);
+//    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+//
     luaL_dostring(luastat, "draw()");
-
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+//
+//    glDisableClientState(GL_VERTEX_ARRAY);
+//    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     
     // This application only creates a single color renderbuffer which is already bound at this point.
     // This call is redundant, but needed if dealing with multiple renderbuffers.
