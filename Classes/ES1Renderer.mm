@@ -54,7 +54,12 @@ int luaopen_gltexture(lua_State* L); // declare the wrapped module
         luaopen_base(luastat);
         luaopen_gltexture(luastat);
 
-        luaL_dostring(luastat, "tex1 = gltexture.GLTextureAdapter('goya.jpg')\n");
+        NSString *fullpath = [[[NSBundle mainBundle] bundlePath]
+                              stringByAppendingPathComponent:@"goya.lua"];
+        NSLog(@"script path: %@", fullpath);
+        
+        luaL_dofile(luastat, [fullpath cStringUsingEncoding:NSUTF8StringEncoding]);
+        luaL_dostring(luastat, "init()");
         
             // Box2D
         CGSize size = CGSizeMake(10, 10);
@@ -113,7 +118,7 @@ int luaopen_gltexture(lua_State* L); // declare the wrapped module
     
     world->ClearForces();
     b2Vec2 position = body->GetPosition();
-    float32 angle = body->GetAngle();
+//    float32 angle = body->GetAngle();
 //    printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
 
         
@@ -145,7 +150,7 @@ int luaopen_gltexture(lua_State* L); // declare the wrapped module
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    luaL_dostring(luastat, "tex1:draw(0, 0, 0, 0.005)");
+    luaL_dostring(luastat, "draw()");
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
