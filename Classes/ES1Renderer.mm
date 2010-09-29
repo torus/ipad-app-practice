@@ -62,49 +62,59 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
                               stringByAppendingPathComponent:@"goya.lua"];
         NSLog(@"script path: %@", fullpath);
         
-        luaL_dofile(luastat, [fullpath cStringUsingEncoding:NSUTF8StringEncoding]);
-        luaL_dostring(luastat, "init()");
-        
-            // Box2D
-        CGSize size = CGSizeMake(10, 10);
-        printf("w: %f, h: %f\n", size.width, size.height);
-        world = new b2World(b2Vec2(0, -10), false);
-        
-        b2BodyDef bodyDef;
-        bodyDef.type = b2_staticBody;
-        bodyDef.position.Set(0, 0);
-        b2Body* edge_body = world->CreateBody(&bodyDef);
-        
-        float wext = size.width / 2;
-        float hext = size.height / 2;
-        b2PolygonShape shapes[4];
-        shapes[0].SetAsBox(wext, 1, b2Vec2(wext, -1), 0);
-        shapes[1].SetAsBox(wext, 1, b2Vec2(wext, size.height + 1), 0);
-        shapes[2].SetAsBox(1, hext, b2Vec2(-1, hext), 0);
-        shapes[3].SetAsBox(1, hext, b2Vec2(size.width + 1, hext), 0);
-        
-        for (int i = 0; i < 4; ++i) {
-            b2FixtureDef fixtureDef;
-            fixtureDef.shape = &shapes[i];
-            edge_body->CreateFixture(&fixtureDef);
+        int fileresult = luaL_dofile(luastat, [fullpath cStringUsingEncoding:NSUTF8StringEncoding]);
+
+        if (fileresult) {
+            const char *err = lua_tostring(luastat, lua_gettop(luastat));
+            NSLog(@"Lua Error: %s\n", err);
         }
 
-        {
-            b2BodyDef bodyDef;
-            bodyDef.type = b2_dynamicBody;
-            bodyDef.position.Set(5.0f, 9.0f);
-            body = world->CreateBody(&bodyDef);
-            
-            b2PolygonShape dynamicBox;
-            dynamicBox.SetAsBox(1.0f, 1.0f);
-            
-            b2FixtureDef fixtureDef;
-            fixtureDef.shape = &dynamicBox;
-            fixtureDef.density = 1.0f;
-            fixtureDef.friction = 0.3f;
-            
-            body->CreateFixture(&fixtureDef);
+        int result = luaL_dostring(luastat, "init()");
+        
+        if (result) {
+            const char *err = lua_tostring(luastat, lua_gettop(luastat));
+            NSLog(@"Lua Error: %s\n", err);
         }
+//            // Box2D
+//        CGSize size = CGSizeMake(10, 10);
+//        printf("w: %f, h: %f\n", size.width, size.height);
+//        world = new b2World(b2Vec2(0, -10), false);
+//        
+//        b2BodyDef bodyDef;
+//        bodyDef.type = b2_staticBody;
+//        bodyDef.position.Set(0, 0);
+//        b2Body* edge_body = world->CreateBody(&bodyDef);
+//        
+//        float wext = size.width / 2;
+//        float hext = size.height / 2;
+//        b2PolygonShape shapes[4];
+//        shapes[0].SetAsBox(wext, 1, b2Vec2(wext, -1), 0);
+//        shapes[1].SetAsBox(wext, 1, b2Vec2(wext, size.height + 1), 0);
+//        shapes[2].SetAsBox(1, hext, b2Vec2(-1, hext), 0);
+//        shapes[3].SetAsBox(1, hext, b2Vec2(size.width + 1, hext), 0);
+//        
+//        for (int i = 0; i < 4; ++i) {
+//            b2FixtureDef fixtureDef;
+//            fixtureDef.shape = &shapes[i];
+//            edge_body->CreateFixture(&fixtureDef);
+//        }
+//
+//        {
+//            b2BodyDef bodyDef;
+//            bodyDef.type = b2_dynamicBody;
+//            bodyDef.position.Set(5.0f, 9.0f);
+//            body = world->CreateBody(&bodyDef);
+//            
+//            b2PolygonShape dynamicBox;
+//            dynamicBox.SetAsBox(1.0f, 1.0f);
+//            
+//            b2FixtureDef fixtureDef;
+//            fixtureDef.shape = &dynamicBox;
+//            fixtureDef.density = 1.0f;
+//            fixtureDef.friction = 0.3f;
+//            
+//            body->CreateFixture(&fixtureDef);
+//        }
         
         
     }
@@ -115,13 +125,13 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
 - (void)render
 {
         // Box2D
-    float32 timeStep = 1.0f / 30.0f;
-    int32 velocityIterations = 6;
-    int32 positionIterations = 2;
-    world->Step(timeStep, velocityIterations, positionIterations);
-    
-    world->ClearForces();
-    b2Vec2 position = body->GetPosition();
+//    float32 timeStep = 1.0f / 30.0f;
+//    int32 velocityIterations = 6;
+//    int32 positionIterations = 2;
+//    world->Step(timeStep, velocityIterations, positionIterations);
+//    
+//    world->ClearForces();
+//    b2Vec2 position = body->GetPosition();
 //    float32 angle = body->GetAngle();
 //    printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
 
@@ -154,7 +164,13 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
 //    glEnableClientState(GL_VERTEX_ARRAY);
 //    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 //
-    luaL_dostring(luastat, "draw()");
+    int result = luaL_dostring(luastat, "draw()");
+    
+    if (result) {
+        const char *err = lua_tostring(luastat, lua_gettop(luastat));
+        NSLog(@"Lua Error: %s\n", err);
+    }
+    
 //
 //    glDisableClientState(GL_VERTEX_ARRAY);
 //    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
