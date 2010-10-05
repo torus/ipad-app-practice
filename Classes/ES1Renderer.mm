@@ -40,18 +40,6 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
         glBindRenderbufferOES(GL_RENDERBUFFER_OES, colorRenderbuffer);
         glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, colorRenderbuffer);
 
-//            // load texture
-//        glMatrixMode(GL_MODELVIEW);
-//        glLoadIdentity();
-//            // Disable Depth
-//        glDisable(GL_DEPTH_TEST);
-//        
-//            // Load textures
-//        glEnable(GL_TEXTURE_2D);
-//        glEnable(GL_BLEND);
-//        glBlendFunc(GL_ONE, GL_SRC_COLOR);
-
-        
         luastat = lua_open();
         luaopen_base(luastat);
         luaopen_gltexture(luastat);
@@ -75,48 +63,6 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
             const char *err = lua_tostring(luastat, lua_gettop(luastat));
             NSLog(@"Lua Error: %s\n", err);
         }
-//            // Box2D
-//        CGSize size = CGSizeMake(10, 10);
-//        printf("w: %f, h: %f\n", size.width, size.height);
-//        world = new b2World(b2Vec2(0, -10), false);
-//        
-//        b2BodyDef bodyDef;
-//        bodyDef.type = b2_staticBody;
-//        bodyDef.position.Set(0, 0);
-//        b2Body* edge_body = world->CreateBody(&bodyDef);
-//        
-//        float wext = size.width / 2;
-//        float hext = size.height / 2;
-//        b2PolygonShape shapes[4];
-//        shapes[0].SetAsBox(wext, 1, b2Vec2(wext, -1), 0);
-//        shapes[1].SetAsBox(wext, 1, b2Vec2(wext, size.height + 1), 0);
-//        shapes[2].SetAsBox(1, hext, b2Vec2(-1, hext), 0);
-//        shapes[3].SetAsBox(1, hext, b2Vec2(size.width + 1, hext), 0);
-//        
-//        for (int i = 0; i < 4; ++i) {
-//            b2FixtureDef fixtureDef;
-//            fixtureDef.shape = &shapes[i];
-//            edge_body->CreateFixture(&fixtureDef);
-//        }
-//
-//        {
-//            b2BodyDef bodyDef;
-//            bodyDef.type = b2_dynamicBody;
-//            bodyDef.position.Set(5.0f, 9.0f);
-//            body = world->CreateBody(&bodyDef);
-//            
-//            b2PolygonShape dynamicBox;
-//            dynamicBox.SetAsBox(1.0f, 1.0f);
-//            
-//            b2FixtureDef fixtureDef;
-//            fixtureDef.shape = &dynamicBox;
-//            fixtureDef.density = 1.0f;
-//            fixtureDef.friction = 0.3f;
-//            
-//            body->CreateFixture(&fixtureDef);
-//        }
-        
-        
     }
 
     return self;
@@ -124,46 +70,15 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
 
 - (void)render
 {
-        // Box2D
-//    float32 timeStep = 1.0f / 30.0f;
-//    int32 velocityIterations = 6;
-//    int32 positionIterations = 2;
-//    world->Step(timeStep, velocityIterations, positionIterations);
-//    
-//    world->ClearForces();
-//    b2Vec2 position = body->GetPosition();
-//    float32 angle = body->GetAngle();
-//    printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-
-        
-        // Replace the implementation of this method to do your own custom drawing
-
-//    static float transY = 0.0f;
-
     // This application only creates a single context which is already set current at this point.
     // This call is redundant, but needed if dealing with multiple contexts.
     [EAGLContext setCurrentContext:context];
-        //
+
     // This application only creates a single default framebuffer which is already bound at this point.
     // This call is redundant, but needed if dealing with multiple framebuffers.
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, defaultFramebuffer);
     glViewport(0, 0, backingWidth, backingHeight);
 
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
-////    glTranslatef(0.0f, (GLfloat)(sinf(transY)/2.0f), 0.0f);
-//    glTranslatef((position.x - 5) / 10.0, (position.y - 5) / 10.0, 0.0f);
-//    transY += 0.075f;
-//
-//    glClearColor(0, 0, 0, 1);
-//    glClear(GL_COLOR_BUFFER_BIT);
-//
-//        // Textures
-//    glEnableClientState(GL_VERTEX_ARRAY);
-//    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-//
     int result = luaL_dostring(luastat, "draw()");
     
     if (result) {
@@ -171,17 +86,10 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
         NSLog(@"Lua Error: %s\n", err);
     }
     
-//
-//    glDisableClientState(GL_VERTEX_ARRAY);
-//    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    
     // This application only creates a single color renderbuffer which is already bound at this point.
     // This call is redundant, but needed if dealing with multiple renderbuffers.
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, colorRenderbuffer);
     [context presentRenderbuffer:GL_RENDERBUFFER_OES];
-
-
-
 }
 
 - (BOOL)resizeFromLayer:(CAEAGLLayer *)layer

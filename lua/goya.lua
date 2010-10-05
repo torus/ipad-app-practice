@@ -84,9 +84,6 @@ function draw ()
    -- print ("draw")
    -- print (tostring (tex1))
 
-    -- glBindFramebufferOES(GL_FRAMEBUFFER_OES, defaultFramebuffer);
-    -- glViewport(0, 0, backingWidth, backingHeight);
-
    local timeStep = 1.0 / 30.0
    local velocityIterations = 6
    local positionIterations = 2
