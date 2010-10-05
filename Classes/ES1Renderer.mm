@@ -138,7 +138,7 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
         
         // Replace the implementation of this method to do your own custom drawing
 
-    static float transY = 0.0f;
+//    static float transY = 0.0f;
 
     // This application only creates a single context which is already set current at this point.
     // This call is redundant, but needed if dealing with multiple contexts.

@@ -95,24 +95,24 @@ function draw ()
    world:ClearForces()
    local position = body:GetPosition()
 
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    glMatrixMode(GL_MODELVIEW)
-    glLoadIdentity()
+   glMatrixMode(GL_PROJECTION)
+   glLoadIdentity()
+   glMatrixMode(GL_MODELVIEW)
+   glLoadIdentity()
 
-    glTranslatef((position.x - 5) / 10.0, (position.y - 5) / 10.0, 0.0)
+   glTranslatef((position.x - 5) / 10.0, (position.y - 5) / 10.0, 0.0)
 
-    glClearColor(0, 0, 0, 1)
-    glClear(GL_COLOR_BUFFER_BIT)
+   glClearColor(0, 0, 0, 1)
+   glClear(GL_COLOR_BUFFER_BIT)
 
 
-    glEnableClientState(GL_VERTEX_ARRAY)
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY)
+   glEnableClientState(GL_VERTEX_ARRAY)
+   glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 
-    tex1:draw(0, 0, 0, 0.005)
+   tex1:draw(0, 0, 0, 0.005)
 
-    glDisableClientState(GL_VERTEX_ARRAY)
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY)
+   glDisableClientState(GL_VERTEX_ARRAY)
+   glDisableClientState(GL_TEXTURE_COORD_ARRAY)
 
     -- print "draw done"
 end
