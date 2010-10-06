@@ -8,6 +8,7 @@
 
 %include <Box2D/Common/b2Math.h>
 
+%include <Box2D/Collision/Shapes/b2Shape.h>
 %include <Box2D/Collision/Shapes/b2CircleShape.h>
 %include <Box2D/Collision/Shapes/b2PolygonShape.h>
 
@@ -24,6 +25,7 @@
 
 %include <Box2D/Dynamics/Contacts/b2Contact.h>
 
+%include <Box2D/Dynamics/Joints/b2Joint.h>
 %include <Box2D/Dynamics/Joints/b2DistanceJoint.h>
 %include <Box2D/Dynamics/Joints/b2FrictionJoint.h>
 %include <Box2D/Dynamics/Joints/b2GearJoint.h>
