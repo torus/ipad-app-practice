@@ -29,10 +29,32 @@ function init ()
    print ("b2World: " .. tostring (b2World))
    print ("b2Vec2: " .. tostring (b2Vec2))
 
-        -- CGSize size = CGSizeMake(10, 10);
-        -- printf("w: %f, h: %f\n", size.width, size.height);
    world = b2World(b2Vec2(0, -10), false)
 
+   create_edge (world)
+   create_goya (world)
+
+   print "init done"
+end
+
+function create_goya (world)
+   local bodyDef = b2BodyDef ()
+   bodyDef.type = b2_dynamicBody
+   bodyDef.position:Set(5.0, 9.0)
+   body = world:CreateBody(bodyDef)
+   
+   local dynamicBox = b2PolygonShape ()
+   dynamicBox:SetAsBox(1.0, 1.0)
+   
+   local fixtureDef = b2FixtureDef ()
+   fixtureDef.shape = dynamicBox
+   fixtureDef.density = 1.0
+   fixtureDef.friction = 0.3
+   
+   body:CreateFixture(fixtureDef)
+end
+
+function create_edge (world)
    local bodyDef = b2BodyDef ()
    bodyDef.type = b2_staticBody
    bodyDef.position:Set(0, 0)
@@ -59,38 +81,21 @@ function init ()
    end
 
    print "edge prepared"
-   ;
-   (function ()
-       local bodyDef = b2BodyDef ()
-       bodyDef.type = b2_dynamicBody
-       bodyDef.position:Set(5.0, 9.0)
-       body = world:CreateBody(bodyDef)
-            
-       local dynamicBox = b2PolygonShape ()
-       dynamicBox:SetAsBox(1.0, 1.0)
-            
-       local fixtureDef = b2FixtureDef ()
-       fixtureDef.shape = dynamicBox
-       fixtureDef.density = 1.0
-       fixtureDef.friction = 0.3
-            
-       body:CreateFixture(fixtureDef)
-    end) ()
-
-   print "init done"
 end
 
 function draw ()
-   -- print ("draw")
-   -- print (tostring (tex1))
-
    local timeStep = 1.0 / 30.0
    local velocityIterations = 6
    local positionIterations = 2
+
    world:Step(timeStep, velocityIterations, positionIterations)
-    
    world:ClearForces()
-   local position = body:GetPosition()
+
+   draw_goya (body)
+end
+
+function draw_goya (goya)
+   local position = goya:GetPosition()
 
    glMatrixMode(GL_PROJECTION)
    glLoadIdentity()
@@ -106,10 +111,8 @@ function draw ()
    glEnableClientState(GL_VERTEX_ARRAY)
    glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 
-   tex1:draw(0, 0, 0, 0.005)
+   tex1:draw(0, 0, 0, 0.001)
 
    glDisableClientState(GL_VERTEX_ARRAY)
    glDisableClientState(GL_TEXTURE_COORD_ARRAY)
-
-    -- print "draw done"
 end
