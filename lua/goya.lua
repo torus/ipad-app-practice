@@ -11,7 +11,11 @@ print (tostring (GL_MODELVIEW))
 
 local tex1
 local world
-local body
+local edge_body
+local body1
+local body2
+local joint1
+local joint2
 
 function init ()
    print ("init")
@@ -31,16 +35,33 @@ function init ()
 
    world = b2World(b2Vec2(0, -10), false)
 
-   create_edge (world)
-   create_goya (world)
+   edge_body = create_edge (world)
+   body1 = create_goya (world, 3.0, 9.0)
+   body2 = create_goya (world, 7.0, 9.0)
+
+   print ("body1 = " .. tostring (body1))
+   print ("body2 = " .. tostring (body2))
+
+   local jd = b2DistanceJointDef ()
+   jd.frequencyHz = 10
+   jd.dampingRatio = 0.5
+   jd.bodyA = body1
+   jd.bodyB = body2
+
+   jd.localAnchorA:Set (0, 0)
+   jd.localAnchorB:Set (0.1, 0.1)
+
+   jd.length = 1
+
+   joint1 = world:CreateJoint (jd)
 
    print "init done"
 end
 
-function create_goya (world)
+function create_goya (world, x, y)
    local bodyDef = b2BodyDef ()
    bodyDef.type = b2_dynamicBody
-   bodyDef.position:Set(5.0, 9.0)
+   bodyDef.position:Set(x, y)
    body = world:CreateBody(bodyDef)
    
    local dynamicBox = b2PolygonShape ()
@@ -50,8 +71,10 @@ function create_goya (world)
    fixtureDef.shape = dynamicBox
    fixtureDef.density = 1.0
    fixtureDef.friction = 0.3
-   
+
    body:CreateFixture(fixtureDef)
+
+   return body
 end
 
 function create_edge (world)
@@ -81,6 +104,8 @@ function create_edge (world)
    end
 
    print "edge prepared"
+
+   return edge_body
 end
 
 function draw ()
@@ -91,7 +116,11 @@ function draw ()
    world:Step(timeStep, velocityIterations, positionIterations)
    world:ClearForces()
 
-   draw_goya (body)
+   glClearColor(0, 0, 0, 1)
+   glClear(GL_COLOR_BUFFER_BIT)
+
+   draw_goya (body1)
+   draw_goya (body2)
 end
 
 function draw_goya (goya)
@@ -103,10 +132,6 @@ function draw_goya (goya)
    glLoadIdentity()
 
    glTranslatef((position.x - 5) / 10.0, (position.y - 5) / 10.0, 0.0)
-
-   glClearColor(0, 0, 0, 1)
-   glClear(GL_COLOR_BUFFER_BIT)
-
 
    glEnableClientState(GL_VERTEX_ARRAY)
    glEnableClientState(GL_TEXTURE_COORD_ARRAY)
