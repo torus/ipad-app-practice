@@ -43,17 +43,21 @@ function init ()
    print ("body2 = " .. tostring (body2))
 
    local jd = b2DistanceJointDef ()
-   jd.frequencyHz = 10
-   jd.dampingRatio = 0.5
+   jd.frequencyHz = 30
+   jd.dampingRatio = 1
    jd.bodyA = body1
    jd.bodyB = body2
 
    jd.localAnchorA:Set (0, 0)
    jd.localAnchorB:Set (0.1, 0.1)
 
-   jd.length = 1
+   jd.length = 4
 
    joint1 = world:CreateJoint (jd)
+
+   jd.bodyB = edge_body
+   jd.localAnchorB:Set (5, 10)
+   joint2 = world:CreateJoint (jd)
 
    print "init done"
 end
