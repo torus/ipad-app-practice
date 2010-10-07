@@ -28,6 +28,10 @@
     // isn't available.
     id displayLink;
     NSTimer *animationTimer;
+
+    CFTimeInterval frameStartTime;
+    UIAccelerationValue accelX;
+    UIAccelerationValue accelY;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;

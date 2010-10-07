@@ -11,6 +11,8 @@
 #import "ES1Renderer.h"
     //#import "ES2Renderer.h"
 
+#import <Box2D/Box2D.h>
+
 @implementation EAGLView
 
 @synthesize animating;
@@ -59,14 +61,41 @@
         NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
         if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
             displayLinkSupported = TRUE;
+
+        frameStartTime = CFAbsoluteTimeGetCurrent();
     }
 
     return self;
 }
 
+#pragma mark ---
+
+-(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
+    for (UITouch *touch in touches) {
+        CGPoint point = [touch locationInView:self];
+            //        float scale = 10.0f / backingWidth;
+        NSLog(@"touch %f, %f", point.x, point.y);
+    }
+}
+
+- (void)accelerometer:(UIAccelerometer*)accelerometer
+        didAccelerate:(UIAcceleration*)acceleration {
+    accelX = acceleration.x;
+    accelY = acceleration.y;
+    
+//    NSLog(@"accel %f, %f", accelX, accelY);
+}
+
+#pragma mark ---
+
 - (void)drawView:(id)sender
 {
     [renderer render];
+
+    CFTimeInterval currentTime = CFAbsoluteTimeGetCurrent();
+    CFTimeInterval interval = MIN(currentTime - frameStartTime, 3.0 / 60);
+    [renderer stepTime:interval gravity:b2Vec2(accelX, accelY)];
+    frameStartTime = currentTime;
 }
 
 - (void)layoutSubviews
@@ -113,9 +142,14 @@
             displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(drawView:)];
             [displayLink setFrameInterval:animationFrameInterval];
             [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
+            [[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / 15)];
+            [[UIAccelerometer sharedAccelerometer] setDelegate:self];
         }
         else
             animationTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)((1.0 / 30.0) * animationFrameInterval) target:self selector:@selector(drawView:) userInfo:nil repeats:TRUE];
+
+        frameStartTime = CFAbsoluteTimeGetCurrent();
 
         animating = TRUE;
     }

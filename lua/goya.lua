@@ -113,18 +113,21 @@ function create_edge (world)
 end
 
 function draw ()
-   local timeStep = 1.0 / 30.0
-   local velocityIterations = 6
-   local positionIterations = 2
-
-   world:Step(timeStep, velocityIterations, positionIterations)
-   world:ClearForces()
-
    glClearColor(0, 0, 0, 1)
    glClear(GL_COLOR_BUFFER_BIT)
 
    draw_goya (body1)
    draw_goya (body2)
+end
+
+function step (timeStep, gravx, gravy)
+   -- local timeStep = 1.0 / 30.0
+   local velocityIterations = 6
+   local positionIterations = 2
+
+   world:SetGravity (b2Vec2 (gravx * 10, gravy * 10))
+   world:Step(timeStep, velocityIterations, positionIterations)
+   world:ClearForces()
 end
 
 function draw_goya (goya)

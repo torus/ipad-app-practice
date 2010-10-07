@@ -92,6 +92,18 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
     [context presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
 
+- (void)stepTime:(float)time gravity:(b2Vec2)accelVector
+{
+    char buf[256];
+    sprintf(buf, "step(%f, %f,%f)", time, accelVector.x, accelVector.y);
+    int result = luaL_dostring(luastat, buf);
+    
+    if (result) {
+        const char *err = lua_tostring(luastat, lua_gettop(luastat));
+        NSLog(@"Lua Error: %s\n", err);
+    }    
+}
+
 - (BOOL)resizeFromLayer:(CAEAGLLayer *)layer
 {	
     // Allocate color buffer backing based on the current layer size
