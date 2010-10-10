@@ -43,8 +43,8 @@ function init ()
    print ("body2 = " .. tostring (body2))
 
    local jd = b2DistanceJointDef ()
-   jd.frequencyHz = 30
-   jd.dampingRatio = 1
+   jd.frequencyHz = 3
+   jd.dampingRatio = 0.1
    jd.bodyA = body1
    jd.bodyB = body2
 
@@ -116,8 +116,21 @@ function draw ()
    glClearColor(0, 0, 0, 1)
    glClear(GL_COLOR_BUFFER_BIT)
 
+   glMatrixMode(GL_PROJECTION)
+   glLoadIdentity()
+   glOrthof (0, 10, 0, 10, 0, 1)
+
+   glMatrixMode(GL_MODELVIEW)
+   glLoadIdentity()
+
+   glEnableClientState(GL_VERTEX_ARRAY)
+   glEnableClientState(GL_TEXTURE_COORD_ARRAY)
+
    draw_goya (body1)
    draw_goya (body2)
+
+   glDisableClientState(GL_VERTEX_ARRAY)
+   glDisableClientState(GL_TEXTURE_COORD_ARRAY)
 end
 
 function step (timeStep, gravx, gravy)
@@ -133,18 +146,8 @@ end
 function draw_goya (goya)
    local position = goya:GetPosition()
 
-   glMatrixMode(GL_PROJECTION)
-   glLoadIdentity()
-   glMatrixMode(GL_MODELVIEW)
-   glLoadIdentity()
-
-   glTranslatef((position.x - 5) / 10.0, (position.y - 5) / 10.0, 0.0)
-
-   glEnableClientState(GL_VERTEX_ARRAY)
-   glEnableClientState(GL_TEXTURE_COORD_ARRAY)
-
-   tex1:draw(0, 0, 0, 0.001)
-
-   glDisableClientState(GL_VERTEX_ARRAY)
-   glDisableClientState(GL_TEXTURE_COORD_ARRAY)
+   glPushMatrix ()
+   glTranslatef(position.x, position.y, 0.0)
+   tex1:draw(0, 0, 0, 0.01)
+   glPopMatrix ()
 end
