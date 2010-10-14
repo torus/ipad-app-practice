@@ -75,6 +75,7 @@
         CGPoint point = [touch locationInView:self];
             //        float scale = 10.0f / backingWidth;
         NSLog(@"touch %f, %f", point.x, point.y);
+        [renderer touch:point];
     }
 }
 

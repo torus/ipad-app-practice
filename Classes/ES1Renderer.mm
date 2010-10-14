@@ -41,7 +41,7 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
         glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, colorRenderbuffer);
 
         luastat = lua_open();
-        luaopen_base(luastat);
+        luaL_openlibs(luastat);
         luaopen_gltexture(luastat);
         luaopen_gl(luastat);
         luaopen_b2(luastat);
@@ -57,12 +57,12 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
             NSLog(@"Lua Error: %s\n", err);
         }
 
-        int result = luaL_dostring(luastat, "init()");
-        
-        if (result) {
-            const char *err = lua_tostring(luastat, lua_gettop(luastat));
-            NSLog(@"Lua Error: %s\n", err);
-        }
+//        int result = luaL_dostring(luastat, "init()");
+//        
+//        if (result) {
+//            const char *err = lua_tostring(luastat, lua_gettop(luastat));
+//            NSLog(@"Lua Error: %s\n", err);
+//        }
     }
 
     return self;
@@ -79,8 +79,12 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, defaultFramebuffer);
     glViewport(0, 0, backingWidth, backingHeight);
 
-    int result = luaL_dostring(luastat, "draw()");
-    
+    lua_getglobal(luastat, "draw");
+//    lua_pushnumber(luastat, backingWidth);
+//    lua_pushnumber(luastat, backingHeight);
+    int result = lua_pcall(luastat, 0, 0, 0);
+//    int result = luaL_dostring(luastat, "draw()");
+
     if (result) {
         const char *err = lua_tostring(luastat, lua_gettop(luastat));
         NSLog(@"Lua Error: %s\n", err);
@@ -118,7 +122,31 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
         return NO;
     }
 
+    lua_getglobal(luastat, "init");
+    lua_pushnumber(luastat, backingWidth);
+    lua_pushnumber(luastat, backingHeight);
+    int result = lua_pcall(luastat, 2, 0, 0);
+//    int result = luaL_dostring(luastat, "init()");
+    
+    if (result) {
+        const char *err = lua_tostring(luastat, lua_gettop(luastat));
+        NSLog(@"Lua Error: %s\n", err);
+    }
+    
     return YES;
+}
+
+- (void)touch:(CGPoint)touch
+{
+    lua_getglobal(luastat, "add");
+    lua_pushnumber(luastat, touch.x);
+    lua_pushnumber(luastat, backingHeight - touch.y);
+    int result = lua_pcall(luastat, 2, 0, 0);
+    
+    if (result) {
+        const char *err = lua_tostring(luastat, lua_gettop(luastat));
+        NSLog(@"Lua Error: %s\n", err);
+    }
 }
 
 - (void)dealloc

@@ -2,9 +2,11 @@ local x = getfenv ()
 print (tostring (x))
 local m = getmetatable (x) or {}
 print (tostring (m))
+
 m.__index = function (tbl, key)
                return gl[key] or b2[key]
             end
+
 setmetatable (x, m)
 print (tostring (glMatrixMode))
 print (tostring (GL_MODELVIEW))
@@ -12,13 +14,19 @@ print (tostring (GL_MODELVIEW))
 local tex1
 local world
 local edge_body
-local body1
-local body2
+local goya = {}
 local joint1
 local joint2
+local size
+local scale
 
-function init ()
-   print ("init")
+function init (width, height)
+   print ("init: " .. width .. ", " .. height)
+
+   local ratio = height / width
+
+   size = {width = 10, height = 10 * ratio} -- 10m x ~13.3m
+   scale = size.width / width
 
    glMatrixMode(GL_MODELVIEW)
    glLoadIdentity()
@@ -36,17 +44,14 @@ function init ()
    world = b2World(b2Vec2(0, -10), false)
 
    edge_body = create_edge (world)
-   body1 = create_goya (world, 3.0, 9.0)
-   body2 = create_goya (world, 7.0, 9.0)
-
-   print ("body1 = " .. tostring (body1))
-   print ("body2 = " .. tostring (body2))
+   table.insert (goya, create_goya (world, 3.0, 9.0))
+   table.insert (goya, create_goya (world, 7.0, 9.0))
 
    local jd = b2DistanceJointDef ()
    jd.frequencyHz = 3
    jd.dampingRatio = 0.1
-   jd.bodyA = body1
-   jd.bodyB = body2
+   jd.bodyA = goya[1]
+   jd.bodyB = goya[2]
 
    jd.localAnchorA:Set (0, 0)
    jd.localAnchorB:Set (0.1, 0.1)
@@ -55,9 +60,9 @@ function init ()
 
    joint1 = world:CreateJoint (jd)
 
-   jd.bodyB = edge_body
-   jd.localAnchorB:Set (5, 10)
-   joint2 = world:CreateJoint (jd)
+   -- jd.bodyB = edge_body
+   -- jd.localAnchorB:Set (5, 10)
+   -- joint2 = world:CreateJoint (jd)
 
    print "init done"
 end
@@ -69,7 +74,7 @@ function create_goya (world, x, y)
    body = world:CreateBody(bodyDef)
    
    local dynamicBox = b2PolygonShape ()
-   dynamicBox:SetAsBox(1.0, 1.0)
+   dynamicBox:SetAsBox(0.5, 0.5)
    
    local fixtureDef = b2FixtureDef ()
    fixtureDef.shape = dynamicBox
@@ -89,7 +94,7 @@ function create_edge (world)
 
    print ("edge_body: " .. tostring (edge_body))
 
-   local size = {width = 10, height = 10}
+   -- local size = {width = 10, height = 10}
 
    local wext = size.width / 2
    local hext = size.height / 2
@@ -113,12 +118,12 @@ function create_edge (world)
 end
 
 function draw ()
-   glClearColor(0, 0, 0, 1)
+   glClearColor(1, 1, 1, 1)
    glClear(GL_COLOR_BUFFER_BIT)
 
    glMatrixMode(GL_PROJECTION)
    glLoadIdentity()
-   glOrthof (0, 10, 0, 10, 0, 1)
+   glOrthof (0, size.width, 0, size.height, -1, 1)
 
    glMatrixMode(GL_MODELVIEW)
    glLoadIdentity()
@@ -126,8 +131,9 @@ function draw ()
    glEnableClientState(GL_VERTEX_ARRAY)
    glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 
-   draw_goya (body1)
-   draw_goya (body2)
+   for i, g in ipairs (goya) do
+      draw_goya (g)
+   end
 
    glDisableClientState(GL_VERTEX_ARRAY)
    glDisableClientState(GL_TEXTURE_COORD_ARRAY)
@@ -143,11 +149,15 @@ function step (timeStep, gravx, gravy)
    world:ClearForces()
 end
 
-function draw_goya (goya)
-   local position = goya:GetPosition()
+function add (x, y)
+   table.insert (goya, create_goya (world, x * scale, y * scale))
+end
+
+function draw_goya (g)
+   local position = g:GetPosition()
 
    glPushMatrix ()
    glTranslatef(position.x, position.y, 0.0)
-   tex1:draw(0, 0, 0, 0.01)
+   tex1:draw(0, 0, 0, 1 / 128)
    glPopMatrix ()
 end

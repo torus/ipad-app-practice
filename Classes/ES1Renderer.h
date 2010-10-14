@@ -46,5 +46,6 @@ extern "C" {
 - (void)render;
 - (void)stepTime:(float)time gravity:(b2Vec2)accelVector;
 - (BOOL)resizeFromLayer:(CAEAGLLayer *)layer;
+- (void)touch:(CGPoint)touch;
 
 @end
