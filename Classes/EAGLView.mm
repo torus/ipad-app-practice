@@ -95,7 +95,7 @@
 
     CFTimeInterval currentTime = CFAbsoluteTimeGetCurrent();
     CFTimeInterval interval = MIN(currentTime - frameStartTime, 3.0 / 60);
-    [renderer stepTime:interval gravity:b2Vec2(accelX, accelY)];
+    [renderer stepTime:interval gravityX:accelX gravityY:accelY];
     frameStartTime = currentTime;
 }
 

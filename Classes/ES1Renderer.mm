@@ -96,9 +96,10 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
     [context presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
 
-- (void)stepTime:(float)time gravity:(b2Vec2)accelVector
+- (void)stepTime:(float)time gravityX:(double)x gravityY:(double)y;
 {
     char buf[256];
+    b2Vec2 accelVector(x, y);
     sprintf(buf, "step(%f, %f,%f)", time, accelVector.x, accelVector.y);
     int result = luaL_dostring(luastat, buf);
     
