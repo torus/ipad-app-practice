@@ -16,6 +16,8 @@
 		28FD14FE0DC6FC130079059D /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28FD14FD0DC6FC130079059D /* EAGLView.mm */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		9C5E37F812928ABF008023F6 /* xml_wrap.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C5E37F712928ABF008023F6 /* xml_wrap.mm */; };
+		9C5E382612928BF0008023F6 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C5E382512928BF0008023F6 /* libxml2.dylib */; };
 		9C6CD14B12502FB100EE793B /* GLTextureAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CD14A12502FB100EE793B /* GLTextureAdapter.mm */; };
 		9C7BA9A31246FEB30057B829 /* goya.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9C7BA9A21246FEB30057B829 /* goya.jpg */; };
 		9C7BA9A7124701CA0057B829 /* GLTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7BA9A6124701CA0057B829 /* GLTexture.m */; };
@@ -107,6 +109,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Box2DPractice_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DPractice_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Box2DPractice-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Box2DPractice-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		9C5E37F712928ABF008023F6 /* xml_wrap.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = xml_wrap.mm; sourceTree = "<group>"; };
+		9C5E382512928BF0008023F6 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		9C6CD14912502DB600EE793B /* GLTextureAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTextureAdapter.h; sourceTree = "<group>"; };
 		9C6CD14A12502FB100EE793B /* GLTextureAdapter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GLTextureAdapter.mm; sourceTree = "<group>"; };
 		9C7BA9A21246FEB30057B829 /* goya.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = goya.jpg; sourceTree = "<group>"; };
@@ -253,6 +257,7 @@
 				28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */,
 				28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */,
 				9C7BA9AD124702380057B829 /* CoreGraphics.framework in Frameworks */,
+				9C5E382612928BF0008023F6 /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +304,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				9C5E37F712928ABF008023F6 /* xml_wrap.mm */,
 				9CE83EE21251F1020075D1B7 /* Box2D_wrap.mm */,
 				9C9E23F312507F4200B6A127 /* Lua */,
 				9CFDCBF212475A91000801B0 /* Box2D */,
@@ -331,6 +337,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				9C7BA9AC124702380057B829 /* CoreGraphics.framework */,
+				9C5E382512928BF0008023F6 /* libxml2.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -672,6 +679,7 @@
 				9C9E24431250801E00B6A127 /* lzio.c in Sources */,
 				9CE83E4E1251CC530075D1B7 /* gl_wrap.m in Sources */,
 				9CE83EE31251F1020075D1B7 /* Box2D_wrap.mm in Sources */,
+				9C5E37F812928ABF008023F6 /* xml_wrap.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -716,7 +724,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = Classes;
+				HEADER_SEARCH_PATHS = (
+					"${SDKROOT}/usr/include/libxml2",
+					Classes,
+				);
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -731,7 +742,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = Classes;
+				HEADER_SEARCH_PATHS = (
+					"${SDKROOT}/usr/include/libxml2",
+					Classes,
+				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.2;

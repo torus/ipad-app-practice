@@ -1,4 +1,4 @@
-wrapper: GLTextureAdapter_wrap.mm gl_wrap.m Box2D_wrap.mm
+wrapper: GLTextureAdapter_wrap.mm gl_wrap.m Box2D_wrap.mm xml_wrap.mm
 
 %_wrap.mm: %.i
 	swig -IClasses -c++ -lua -o $@ $<
