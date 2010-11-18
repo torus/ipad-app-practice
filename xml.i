@@ -1,9 +1,10 @@
 // use SWIG version >= 1.3.40
 
-%module dom
+%module xml
 
 %{
   #include <libxml/tree.h>
+  #include <libxml/parser.h>
   #include <stdio.h>
 %}
 
@@ -44,3 +45,17 @@
 %include </usr/include/libxml2/libxml/xmlexports.h>
 %include </usr/include/libxml2/libxml/xmlversion.h>
 %include </usr/include/libxml2/libxml/tree.h>
+
+XMLPUBFUN xmlDocPtr XMLCALL     
+                xmlParseFile            (const char *filename);
+
+%native(getDir) int getDir (lua_State *L);
+
+%{
+  int getDir (lua_State *L)
+  {
+    NSString *fullpath = [[NSBundle mainBundle] bundlePath];
+    lua_pushstring(L, [fullpath cStringUsingEncoding:NSUTF8StringEncoding]);
+    return 1;
+  }    
+%}
