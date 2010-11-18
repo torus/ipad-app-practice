@@ -28,6 +28,7 @@
 
 %typemap(out) xmlChar* {
   lua_pushstring (L, (const char*)$1);
+  SWIG_arg ++;
 }
 
 %typemap(in, numinputs=0) (xmlChar ** mem, int * size) (xmlChar *temp, int templen) {
