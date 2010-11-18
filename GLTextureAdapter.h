@@ -15,4 +15,5 @@ public:
     GLTextureAdapter(const char* filename);
     ~GLTextureAdapter();
     void draw(double x, double y, double rot, double scale);
+    void drawInRect(double x, double y, double rot, double off_x, double off_y, double width, double height);
 };

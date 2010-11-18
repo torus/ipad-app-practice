@@ -33,3 +33,11 @@ GLTextureAdapter::draw(double x, double y, double rot, double scale)
 {
     [(GLTexture*)entity drawAtPoint:CGPointMake(x, y) withRotation:rot withScale:scale];
 }
+
+void
+GLTextureAdapter::drawInRect(double x, double y, double rot, double off_x, double off_y, double width, double height)
+{
+    [(GLTexture*)entity drawInRect:CGRectMake(x, y, width, height)
+                        withClip:CGRectMake(off_x, off_y, width, height)
+                        withRotation:rot];
+}
