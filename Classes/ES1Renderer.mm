@@ -16,6 +16,7 @@ extern "C" {
 int luaopen_gltexture(lua_State* L); // declare the wrapped module
 int luaopen_gl(lua_State* L); // declare the wrapped module
 int luaopen_b2(lua_State* L); // declare the wrapped module
+int luaopen_xml(lua_State* L); // declare the wrapped module
 }
 
 @implementation ES1Renderer
@@ -45,9 +46,10 @@ int luaopen_b2(lua_State* L); // declare the wrapped module
         luaopen_gltexture(luastat);
         luaopen_gl(luastat);
         luaopen_b2(luastat);
+        luaopen_xml(luastat);
 
         NSString *fullpath = [[[NSBundle mainBundle] bundlePath]
-                              stringByAppendingPathComponent:@"goya.lua"];
+                              stringByAppendingPathComponent:@"roda-11.lua"];
         NSLog(@"script path: %@", fullpath);
         
         int fileresult = luaL_dofile(luastat, [fullpath cStringUsingEncoding:NSUTF8StringEncoding]);
