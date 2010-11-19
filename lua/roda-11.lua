@@ -60,81 +60,8 @@ function init (width, height)
    local t = c1.type
    print ("t: " .. tostring (t))
 
-   local nx = c1.namex
-
-   -- edge_body = create_edge (world)
-   -- table.insert (goya, create_goya (world, 3.0, 9.0))
-   -- table.insert (goya, create_goya (world, 7.0, 9.0))
-
-   -- local jd = b2DistanceJointDef ()
-   -- jd.frequencyHz = 3
-   -- jd.dampingRatio = 0.1
-   -- jd.bodyA = goya[1]
-   -- jd.bodyB = goya[2]
-
-   -- jd.localAnchorA:Set (0, 0)
-   -- jd.localAnchorB:Set (0.1, 0.1)
-
-   -- jd.length = 4
-
-   -- joint1 = world:CreateJoint (jd)
-
-   -- jd.bodyB = edge_body
-   -- jd.localAnchorB:Set (5, 10)
-   -- joint2 = world:CreateJoint (jd)
-
    print "init done"
 end
-
--- function create_goya (world, x, y)
---    local bodyDef = b2BodyDef ()
---    bodyDef.type = b2_dynamicBody
---    bodyDef.position:Set(x, y)
---    body = world:CreateBody(bodyDef)
-   
---    local dynamicBox = b2PolygonShape ()
---    dynamicBox:SetAsBox(0.5, 0.5)
-   
---    local fixtureDef = b2FixtureDef ()
---    fixtureDef.shape = dynamicBox
---    fixtureDef.density = 1.0
---    fixtureDef.friction = 0.3
-
---    body:CreateFixture(fixtureDef)
-
---    return body
--- end
-
--- function create_edge (world)
---    local bodyDef = b2BodyDef ()
---    bodyDef.type = b2_staticBody
---    bodyDef.position:Set(0, 0)
---    local edge_body = world:CreateBody(bodyDef)
-
---    print ("edge_body: " .. tostring (edge_body))
-
---    -- local size = {width = 10, height = 10}
-
---    local wext = size.width / 2
---    local hext = size.height / 2
-
---    local shapes = {b2PolygonShape (), b2PolygonShape (), b2PolygonShape (), b2PolygonShape ()}
-
---    shapes[1]:SetAsBox(wext, 1, b2Vec2(wext, -1), 0)
---    shapes[2]:SetAsBox(wext, 1, b2Vec2(wext, size.height + 1), 0)
---    shapes[3]:SetAsBox(1, hext, b2Vec2(-1, hext), 0)
---    shapes[4]:SetAsBox(1, hext, b2Vec2(size.width + 1, hext), 0)
-
---    for i = 1, 4 do
---       local fixtureDef = b2FixtureDef ()
---       fixtureDef.shape = shapes[i]
---       edge_body:CreateFixture(fixtureDef)
---    end
-
---    print "edge prepared"
-
---    return edge_body
--- end
 
 function draw ()
    glClearColor(1, 1, 1, 1)
@@ -150,17 +77,10 @@ function draw ()
    glEnableClientState(GL_VERTEX_ARRAY)
    glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 
-   -- for i, g in ipairs (goya) do
-   --    draw_goya (g)
-   -- end
-
-   -- 768px => 10
-   -- 1 = 76.8px
-
    glPushMatrix ()
    glTranslatef(0, 0, 0.0)
    glScalef (scale, scale, 1)
-   tex1:drawInRect(1, 1, 0, 0, 0, 32, 32)
+   tex1:drawInRect(0, 0, 0, 0, 0, 32, 32)
    glPopMatrix ()
 
    glDisableClientState(GL_VERTEX_ARRAY)
