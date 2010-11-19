@@ -96,16 +96,3 @@ function step (timeStep, gravx, gravy)
    world:Step(timeStep, velocityIterations, positionIterations)
    world:ClearForces()
 end
-
--- function add (x, y)
---    table.insert (goya, create_goya (world, x * scale, y * scale))
--- end
-
--- function draw_goya (g)
---    local position = g:GetPosition()
-
---    glPushMatrix ()
---    glTranslatef(position.x, position.y, 0.0)
---    tex1:draw(0, 0, 0, 1 / 128)
---    glPopMatrix ()
--- end
