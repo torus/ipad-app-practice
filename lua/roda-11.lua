@@ -25,6 +25,77 @@ local scale
 
 local doc
 
+-- function xmlmatch_alt (elem, ...)
+--    for i, pred in ipairs {...} do
+--       if pred (elem) then
+--          return true
+--       end
+--    end
+
+--    return false
+-- end
+
+function M (name, ...)
+   local preds = {...}
+   return function (elem)
+             print ("M: eating " .. name)
+             local targetname = elem.type == XML_TEXT_NODE and "#text" or elem.name
+
+             if targetname == name then
+                for i, pred in ipairs (preds) do
+                   if not pred (elem) then
+                      return false
+                   end
+                end
+                return true
+             else
+                return false
+             end
+          end
+end
+
+function C (...)
+   local preds = {...}
+   return function (elem)
+             local ch = elem.children
+
+             while ch do
+                local res = (function ()
+                                for i, pred in ipairs (preds) do
+                                   if type (pred) == "string" then
+                                      local name = pred
+                                      pred = function (ch)
+                                                return name == ch.name
+                                             end
+                                   end
+                                   if pred (ch) then
+                                      return true
+                                   end
+                                end
+                                return false
+                             end) ()
+                if not res then
+                   return false
+                end
+                ch = ch.next
+             end
+             return true
+          end
+end
+
+local mat =
+   M ("images",
+      C (M ("#text"),
+         M ("image",
+            function (e)
+               print (e.name)
+               return true
+            end,
+            C (M ("#text"),
+               M ("tiles",
+                  C (M ("#text"),
+                     M ("tile")))))));
+
 function init (width, height)
    print ("init: " .. width .. ", " .. height)
 
@@ -59,6 +130,14 @@ function init (width, height)
    print ("n: " .. tostring (n))
    local t = c1.type
    print ("t: " .. tostring (t))
+
+   local att = c1.properties
+   print ("att: " .. tostring (att))
+   local attname = att.name
+   print ("attname: " .. tostring (attname))
+
+   local matresult = mat (root)
+   print ("matresult: " .. tostring (matresult))
 
    print "init done"
 end
