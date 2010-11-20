@@ -18,7 +18,6 @@
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
 		9C1C2E941293D598003BFE60 /* roda-11.lua in Resources */ = {isa = PBXBuildFile; fileRef = 9C1C2E931293D598003BFE60 /* roda-11.lua */; };
 		9C1C2E961293D5AF003BFE60 /* 11-texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C1C2E951293D5AF003BFE60 /* 11-texture.png */; };
-		9C1C2EB41293EB92003BFE60 /* 11-hashed.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9C1C2EB31293EB92003BFE60 /* 11-hashed.xml */; };
 		9C5E37F812928ABF008023F6 /* xml_wrap.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C5E37F712928ABF008023F6 /* xml_wrap.mm */; };
 		9C5E382612928BF0008023F6 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C5E382512928BF0008023F6 /* libxml2.dylib */; };
 		9C6CD14B12502FB100EE793B /* GLTextureAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C6CD14A12502FB100EE793B /* GLTextureAdapter.mm */; };
@@ -58,6 +57,7 @@
 		9CE83E4E1251CC530075D1B7 /* gl_wrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE83E4D1251CC530075D1B7 /* gl_wrap.m */; };
 		9CE83E771251CED30075D1B7 /* goya.lua in Resources */ = {isa = PBXBuildFile; fileRef = 9CE83E761251CED30075D1B7 /* goya.lua */; };
 		9CE83EE31251F1020075D1B7 /* Box2D_wrap.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CE83EE21251F1020075D1B7 /* Box2D_wrap.mm */; };
+		9CFC84AB1297C3EE00CE7B9E /* 11-compacted.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9CFC84AA1297C3EE00CE7B9E /* 11-compacted.xml */; };
 		9CFDCC4112475A91000801B0 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDCBF512475A91000801B0 /* b2BroadPhase.cpp */; };
 		9CFDCC4212475A91000801B0 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDCBF712475A91000801B0 /* b2CollideCircle.cpp */; };
 		9CFDCC4312475A91000801B0 /* b2CollidePolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDCBF812475A91000801B0 /* b2CollidePolygon.cpp */; };
@@ -114,7 +114,6 @@
 		8D1107310486CEB800E47090 /* Box2DPractice-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Box2DPractice-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		9C1C2E931293D598003BFE60 /* roda-11.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "roda-11.lua"; path = "lua/roda-11.lua"; sourceTree = "<group>"; };
 		9C1C2E951293D5AF003BFE60 /* 11-texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "11-texture.png"; sourceTree = "<group>"; };
-		9C1C2EB31293EB92003BFE60 /* 11-hashed.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "11-hashed.xml"; sourceTree = "<group>"; };
 		9C5E37F712928ABF008023F6 /* xml_wrap.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = xml_wrap.mm; sourceTree = "<group>"; };
 		9C5E382512928BF0008023F6 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		9C6CD14912502DB600EE793B /* GLTextureAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTextureAdapter.h; sourceTree = "<group>"; };
@@ -180,6 +179,7 @@
 		9CE83E761251CED30075D1B7 /* goya.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = goya.lua; path = lua/goya.lua; sourceTree = "<group>"; };
 		9CE83E7D1251CEFE0075D1B7 /* goya.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = goya.lua; sourceTree = "<group>"; };
 		9CE83EE21251F1020075D1B7 /* Box2D_wrap.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Box2D_wrap.mm; sourceTree = "<group>"; };
+		9CFC84AA1297C3EE00CE7B9E /* 11-compacted.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "11-compacted.xml"; sourceTree = "<group>"; };
 		9CFDCBF312475A91000801B0 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		9CFDCBF512475A91000801B0 /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
 		9CFDCBF612475A91000801B0 /* b2BroadPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2BroadPhase.h; sourceTree = "<group>"; };
@@ -327,7 +327,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9C1C2EB31293EB92003BFE60 /* 11-hashed.xml */,
+				9CFC84AA1297C3EE00CE7B9E /* 11-compacted.xml */,
 				9C1C2E951293D5AF003BFE60 /* 11-texture.png */,
 				9CE83E751251CEC00075D1B7 /* lua */,
 				9C7BA9A21246FEB30057B829 /* goya.jpg */,
@@ -607,7 +607,7 @@
 				9CE83E771251CED30075D1B7 /* goya.lua in Resources */,
 				9C1C2E941293D598003BFE60 /* roda-11.lua in Resources */,
 				9C1C2E961293D5AF003BFE60 /* 11-texture.png in Resources */,
-				9C1C2EB41293EB92003BFE60 /* 11-hashed.xml in Resources */,
+				9CFC84AB1297C3EE00CE7B9E /* 11-compacted.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

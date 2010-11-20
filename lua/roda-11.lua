@@ -25,20 +25,10 @@ local scale
 
 local doc
 
--- function xmlmatch_alt (elem, ...)
---    for i, pred in ipairs {...} do
---       if pred (elem) then
---          return true
---       end
---    end
-
---    return false
--- end
-
 function M (name, ...)
    local preds = {...}
    return function (elem)
-             print ("M: eating " .. name)
+             -- print ("M: eating " .. name)
              local targetname = elem.type == XML_TEXT_NODE and "#text" or elem.name
 
              if targetname == name then
@@ -83,18 +73,39 @@ function C (...)
           end
 end
 
+local images = {}
+
 local mat =
    M ("images",
       C (M ("#text"),
          M ("image",
             function (e)
-               print (e.name)
-               return true
-            end,
-            C (M ("#text"),
-               M ("tiles",
-                  C (M ("#text"),
-                     M ("tile")))))));
+               local w = xmlGetProp (e, "width")
+               local h = xmlGetProp (e, "height")
+
+               local img = {name = e.name, width = w, height = h, tiles = {}}
+               print (img.name, img.width, img.height)
+
+               local res = C (M ("#text"),
+                              M ("tile",
+                                 function (e)
+                                    local t = {
+                                       id = tonumber (xmlGetProp (e, "id")),
+                                       w = tonumber (xmlGetProp (e, "width")),
+                                       h = tonumber (xmlGetProp (e, "height")),
+                                       off_x = tonumber (xmlGetProp (e, "offset-x")),
+                                       off_y = tonumber (xmlGetProp (e, "offset-y")),
+                                    }
+                                    table.insert (img.tiles, t)
+                                    return true
+                                 end)) (e)
+               if res then
+                  table.insert (images, img)
+                  return true
+               else
+                  return false
+               end
+            end)))
 
 function init (width, height)
    print ("init: " .. width .. ", " .. height)
@@ -109,7 +120,8 @@ function init (width, height)
    glDisable(GL_DEPTH_TEST)
    glEnable(GL_TEXTURE_2D)
    glEnable(GL_BLEND)
-   glBlendFunc(GL_ONE, GL_SRC_COLOR)
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+   -- glBlendFunc(GL_ONE, GL_SRC_COLOR)
 
    tex1 = gltexture.GLTextureAdapter('11-texture.png')
 
@@ -119,22 +131,22 @@ function init (width, height)
 
    world = b2World(b2Vec2(0, -10), false)
 
-   doc = xmlParseFile (getDir () .. "/11-hashed.xml")
+   doc = xmlParseFile (getDir () .. "/11-compacted.xml")
 
    local root = doc.children
    print ("root: " .. tostring (root))
-   local c1 = root.children.next
-   print ("c1: " .. tostring (c1))
+   -- local c1 = root.children.next
+   -- print ("c1: " .. tostring (c1))
 
-   local n = c1.name
-   print ("n: " .. tostring (n))
-   local t = c1.type
-   print ("t: " .. tostring (t))
+   -- local n = c1.name
+   -- print ("n: " .. tostring (n))
+   -- local t = c1.type
+   -- print ("t: " .. tostring (t))
 
-   local att = c1.properties
-   print ("att: " .. tostring (att))
-   local attname = att.name
-   print ("attname: " .. tostring (attname))
+   -- local att = c1.properties
+   -- print ("att: " .. tostring (att))
+   -- local attname = att.name
+   -- print ("attname: " .. tostring (attname))
 
    local matresult = mat (root)
    print ("matresult: " .. tostring (matresult))
@@ -143,12 +155,12 @@ function init (width, height)
 end
 
 function draw ()
-   glClearColor(1, 1, 1, 1)
+   glClearColor(0.3, 0.3, 0.3, 1)
    glClear(GL_COLOR_BUFFER_BIT)
 
    glMatrixMode(GL_PROJECTION)
    glLoadIdentity()
-   glOrthof (0, size.width, 0, size.height, -1, 1)
+   glOrthof (0, size.width, 0, size.height, 0, 100)
 
    glMatrixMode(GL_MODELVIEW)
    glLoadIdentity()
@@ -157,9 +169,21 @@ function draw ()
    glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 
    glPushMatrix ()
-   glTranslatef(0, 0, 0.0)
    glScalef (scale, scale, 1)
-   tex1:drawInRect(0, 0, 0, 0, 0, 32, 32)
+   glTranslatef(0, 0, 0)
+
+   for i, img in ipairs (images) do
+      glPushMatrix ()
+      glTranslatef(0, 0, i * 0.01 - 10)
+      for k, tile in ipairs (img.tiles) do
+         local id = tile.id
+         local x = id % 32
+         local y = (id - x) / 32
+         tex1:drawInRect(tile.off_x, 1024 - tile.off_y, 0, x * 32, y * 32, 32, 32)
+      end
+      glPopMatrix ()
+   end
+
    glPopMatrix ()
 
    glDisableClientState(GL_VERTEX_ARRAY)
