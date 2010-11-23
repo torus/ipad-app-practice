@@ -93,8 +93,8 @@ local mat =
                                        id = tonumber (xmlGetProp (e, "id")),
                                        w = tonumber (xmlGetProp (e, "width")),
                                        h = tonumber (xmlGetProp (e, "height")),
-                                       off_x = tonumber (xmlGetProp (e, "offset-x")),
-                                       off_y = tonumber (xmlGetProp (e, "offset-y")),
+                                       off_x = tonumber (xmlGetProp (e, "offset-x")) - 32,
+                                       off_y = tonumber (xmlGetProp (e, "offset-y")) - 32,
                                     }
                                     table.insert (img.tiles, t)
                                     return true
@@ -121,10 +121,8 @@ function init (width, height)
    glEnable(GL_TEXTURE_2D)
    glEnable(GL_BLEND)
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-   -- glBlendFunc(GL_ONE, GL_SRC_COLOR)
 
    tex1 = gltexture.GLTextureAdapter('11-texture.png')
-
 
    print ("b2World: " .. tostring (b2World))
    print ("b2Vec2: " .. tostring (b2Vec2))
@@ -135,18 +133,6 @@ function init (width, height)
 
    local root = doc.children
    print ("root: " .. tostring (root))
-   -- local c1 = root.children.next
-   -- print ("c1: " .. tostring (c1))
-
-   -- local n = c1.name
-   -- print ("n: " .. tostring (n))
-   -- local t = c1.type
-   -- print ("t: " .. tostring (t))
-
-   -- local att = c1.properties
-   -- print ("att: " .. tostring (att))
-   -- local attname = att.name
-   -- print ("attname: " .. tostring (attname))
 
    local matresult = mat (root)
    print ("matresult: " .. tostring (matresult))
@@ -179,7 +165,7 @@ function draw ()
          local id = tile.id
          local x = id % 32
          local y = (id - x) / 32
-         tex1:drawInRect(tile.off_x, 1024 - tile.off_y, 0, x * 32, y * 32, 32, 32)
+         tex1:drawInRect(tile.off_x, 1024 - tile.off_y - 32, 0, x * 32, y * 32, 32, 32)
       end
       glPopMatrix ()
    end
