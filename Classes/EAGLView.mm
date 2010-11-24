@@ -63,12 +63,36 @@
             displayLinkSupported = TRUE;
 
         frameStartTime = CFAbsoluteTimeGetCurrent();
+        
+        UISwipeGestureRecognizer *swipeGestureRight =
+        [[UISwipeGestureRecognizer alloc]
+         initWithTarget:self action:@selector(handleSwipeGestureRight:)];
+        swipeGestureRight.direction = UISwipeGestureRecognizerDirectionRight;
+        swipeGestureRight.numberOfTouchesRequired = 1;
+        [self addGestureRecognizer:swipeGestureRight];
+        [swipeGestureRight release];        
+        
+        UISwipeGestureRecognizer *swipeGestureLeft =
+        [[UISwipeGestureRecognizer alloc]
+         initWithTarget:self action:@selector(handleSwipeGestureLeft:)];
+        swipeGestureLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+        swipeGestureLeft.numberOfTouchesRequired = 1;
+        [self addGestureRecognizer:swipeGestureLeft];
+        [swipeGestureLeft release];        
     }
 
     return self;
 }
 
 #pragma mark ---
+
+- (void)handleSwipeGestureRight:(id)sender {
+	NSLog(@"swipe right");
+}
+
+- (void)handleSwipeGestureLeft:(id)sender {
+	NSLog(@"swipe left");
+}
 
 -(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     for (UITouch *touch in touches) {

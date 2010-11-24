@@ -141,7 +141,7 @@ int luaopen_xml(lua_State* L); // declare the wrapped module
 
 - (void)touch:(CGPoint)touch
 {
-    lua_getglobal(luastat, "add");
+    lua_getglobal(luastat, "touch");
     lua_pushnumber(luastat, touch.x);
     lua_pushnumber(luastat, backingHeight - touch.y);
     int result = lua_pcall(luastat, 2, 0, 0);
