@@ -152,6 +152,28 @@ int luaopen_xml(lua_State* L); // declare the wrapped module
     }
 }
 
+- (void)swipeRight
+{
+    lua_getglobal(luastat, "swipeRight");
+    int result = lua_pcall(luastat, 0, 0, 0);
+    
+    if (result) {
+        const char *err = lua_tostring(luastat, lua_gettop(luastat));
+        NSLog(@"Lua Error: %s\n", err);
+    }    
+}
+
+- (void)swipeLeft
+{
+    lua_getglobal(luastat, "swipeLeft");
+    int result = lua_pcall(luastat, 0, 0, 0);
+    
+    if (result) {
+        const char *err = lua_tostring(luastat, lua_gettop(luastat));
+        NSLog(@"Lua Error: %s\n", err);
+    }        
+}
+
 - (void)dealloc
 {
     // Tear down GL

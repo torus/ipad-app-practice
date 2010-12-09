@@ -17,5 +17,6 @@
 - (BOOL)resizeFromLayer:(CAEAGLLayer *)layer;
 - (void)stepTime:(float)time gravityX:(double)x gravityY:(double)y;
 - (void)touch:(CGPoint)touch;
-
+- (void)swipeRight;
+- (void)swipeLeft;
 @end

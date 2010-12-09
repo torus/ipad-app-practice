@@ -88,10 +88,12 @@
 
 - (void)handleSwipeGestureRight:(id)sender {
 	NSLog(@"swipe right");
+    [renderer swipeRight];
 }
 
 - (void)handleSwipeGestureLeft:(id)sender {
 	NSLog(@"swipe left");
+    [renderer swipeLeft];
 }
 
 -(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {

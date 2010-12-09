@@ -107,6 +107,17 @@ local mat =
                end
             end)))
 
+function proc ()
+   proc_init ()
+
+   while true do
+      proc_draw ()
+      coroutine.yield ()
+   end
+end
+
+local proc_coroutine = coroutine.create (proc)
+
 function init (width, height)
    print ("init: " .. width .. ", " .. height)
 
@@ -115,6 +126,10 @@ function init (width, height)
    size = {width = 10, height = 10 * ratio} -- 10m x ~13.3m
    scale = size.width / width
 
+   print "init done"
+end
+
+function proc_init ()
    glMatrixMode(GL_MODELVIEW)
    glLoadIdentity()
    glDisable(GL_DEPTH_TEST)
@@ -137,10 +152,14 @@ function init (width, height)
    local matresult = mat (root)
    print ("matresult: " .. tostring (matresult))
 
-   print "init done"
+   print "proc_init() done"
 end
 
 function draw ()
+   coroutine.resume (proc_coroutine)
+end
+
+function proc_draw ()
    glClearColor(0.3, 0.3, 0.3, 1)
    glClear(GL_COLOR_BUFFER_BIT)
 
@@ -184,4 +203,16 @@ function step (timeStep, gravx, gravy)
    world:SetGravity (b2Vec2 (gravx * 10, gravy * 10))
    world:Step(timeStep, velocityIterations, positionIterations)
    world:ClearForces()
+end
+
+function touch (x, y)
+   print ("touch", x, y)
+end
+
+function swipeRight ()
+   print ("swipeRight")
+end
+
+function swipeLeft ()
+   print ("swipeLeft")
 end
