@@ -22,6 +22,7 @@ local joint1
 local joint2
 local size
 local scale
+local key_stat = {}
 
 local doc
 
@@ -73,7 +74,7 @@ function C (...)
           end
 end
 
-local images = {}
+local images
 
 local mat =
    M ("images",
@@ -108,9 +109,18 @@ local mat =
             end)))
 
 function proc ()
-   proc_init ()
+   proc_init ("3-texture.png", getDir () .. "/3-compacted.xml")
+   -- proc_init ("11-texture.png", getDir () .. "/11-compacted.xml")
 
    while true do
+      if key_stat.swipe_right then
+         proc_init ("3-texture.png", getDir () .. "/3-compacted.xml")
+      elseif key_stat.swipe_left then
+         proc_init ("11-texture.png", getDir () .. "/11-compacted.xml")
+      end
+
+      key_stat = {}
+
       proc_draw ()
       coroutine.yield ()
    end
@@ -129,7 +139,8 @@ function init (width, height)
    print "init done"
 end
 
-function proc_init ()
+function proc_init (tex_path, data_path)
+   print ("proc_init:", tex_path, data_path)
    glMatrixMode(GL_MODELVIEW)
    glLoadIdentity()
    glDisable(GL_DEPTH_TEST)
@@ -137,14 +148,14 @@ function proc_init ()
    glEnable(GL_BLEND)
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
-   tex1 = gltexture.GLTextureAdapter('11-texture.png')
+   tex1 = gltexture.GLTextureAdapter(tex_path)
 
    print ("b2World: " .. tostring (b2World))
    print ("b2Vec2: " .. tostring (b2Vec2))
 
    world = b2World(b2Vec2(0, -10), false)
-
-   doc = xmlParseFile (getDir () .. "/11-compacted.xml")
+   images = {}
+   doc = xmlParseFile (data_path)
 
    local root = doc.children
    print ("root: " .. tostring (root))
@@ -207,12 +218,18 @@ end
 
 function touch (x, y)
    print ("touch", x, y)
+
+   key_stat.touch = {x, y}
 end
 
 function swipeRight ()
    print ("swipeRight")
+
+   key_stat.swipe_right = true
 end
 
 function swipeLeft ()
    print ("swipeLeft")
+
+   key_stat.swipe_left = true
 end

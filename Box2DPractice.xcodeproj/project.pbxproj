@@ -16,6 +16,8 @@
 		28FD14FE0DC6FC130079059D /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28FD14FD0DC6FC130079059D /* EAGLView.mm */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		9C12145212C20FFD004CE145 /* 3-compacted.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9C12145012C20FFD004CE145 /* 3-compacted.xml */; };
+		9C12145312C20FFD004CE145 /* 3-texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C12145112C20FFD004CE145 /* 3-texture.png */; };
 		9C1C2E941293D598003BFE60 /* roda-11.lua in Resources */ = {isa = PBXBuildFile; fileRef = 9C1C2E931293D598003BFE60 /* roda-11.lua */; };
 		9C1C2E961293D5AF003BFE60 /* 11-texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C1C2E951293D5AF003BFE60 /* 11-texture.png */; };
 		9C5E37F812928ABF008023F6 /* xml_wrap.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C5E37F712928ABF008023F6 /* xml_wrap.mm */; };
@@ -112,6 +114,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Box2DPractice_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DPractice_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Box2DPractice-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Box2DPractice-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		9C12145012C20FFD004CE145 /* 3-compacted.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "3-compacted.xml"; sourceTree = "<group>"; };
+		9C12145112C20FFD004CE145 /* 3-texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3-texture.png"; sourceTree = "<group>"; };
 		9C1C2E931293D598003BFE60 /* roda-11.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "roda-11.lua"; path = "lua/roda-11.lua"; sourceTree = "<group>"; };
 		9C1C2E951293D5AF003BFE60 /* 11-texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "11-texture.png"; sourceTree = "<group>"; };
 		9C5E37F712928ABF008023F6 /* xml_wrap.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = xml_wrap.mm; sourceTree = "<group>"; };
@@ -327,6 +331,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9C12145012C20FFD004CE145 /* 3-compacted.xml */,
+				9C12145112C20FFD004CE145 /* 3-texture.png */,
 				9CFC84AA1297C3EE00CE7B9E /* 11-compacted.xml */,
 				9C1C2E951293D5AF003BFE60 /* 11-texture.png */,
 				9CE83E751251CEC00075D1B7 /* lua */,
@@ -608,6 +614,8 @@
 				9C1C2E941293D598003BFE60 /* roda-11.lua in Resources */,
 				9C1C2E961293D5AF003BFE60 /* 11-texture.png in Resources */,
 				9CFC84AB1297C3EE00CE7B9E /* 11-compacted.xml in Resources */,
+				9C12145212C20FFD004CE145 /* 3-compacted.xml in Resources */,
+				9C12145312C20FFD004CE145 /* 3-texture.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
