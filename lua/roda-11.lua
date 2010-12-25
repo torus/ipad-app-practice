@@ -105,14 +105,21 @@ function extract_page_data (images)
 end
 
 function proc ()
-   local page = proc_init ("3-texture.png", getDir () .. "/3-compacted.xml")
-   -- proc_init ("11-texture.png", getDir () .. "/11-compacted.xml")
+   proc_init ()
+
+   local page3 = load_page ("3-texture.png", getDir () .. "/3-compacted.xml")
+
+   local page11
+   local page = page3
 
    while true do
       if key_stat.swipe_right then
-         page = proc_init ("3-texture.png", getDir () .. "/3-compacted.xml")
+         page = page3
       elseif key_stat.swipe_left then
-         page = proc_init ("11-texture.png", getDir () .. "/11-compacted.xml")
+         if not page11 then
+            page11 = load_page ("11-texture.png", getDir () .. "/11-compacted.xml")
+         end
+         page = page11
       end
 
       key_stat = {}
@@ -135,14 +142,19 @@ function init (width, height)
    print "init done"
 end
 
-function proc_init (tex_path, data_path)
-   print ("proc_init:", tex_path, data_path)
+function proc_init ()
    glMatrixMode(GL_MODELVIEW)
    glLoadIdentity()
    glDisable(GL_DEPTH_TEST)
    glEnable(GL_TEXTURE_2D)
    glEnable(GL_BLEND)
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+   print "proc_init() done"
+end
+
+function load_page (tex_path, data_path)
+   print ("load_page:", tex_path, data_path)
 
    local tex = gltexture.GLTextureAdapter(tex_path)
 
@@ -158,8 +170,6 @@ function proc_init (tex_path, data_path)
 
    local matresult = extract_page_data (images) (root)
    print ("matresult: " .. tostring (matresult))
-
-   print "proc_init() done"
 
    return {tex = tex, images = images}
 end
