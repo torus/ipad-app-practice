@@ -14,10 +14,10 @@ setmetatable (x, m)
 print (tostring (glMatrixMode))
 print (tostring (GL_MODELVIEW))
 
-local world
 local size
 local scale
 local key_stat = {}
+local step_stat = {}
 
 function M (name, ...)
    local preds = {...}
@@ -112,6 +112,8 @@ function proc ()
    local page11
    local page = page3
 
+   local world = b2World(b2Vec2(0, -10), false)
+
    while true do
       if key_stat.swipe_right then
          page = page3
@@ -121,6 +123,23 @@ function proc ()
          end
          page = page11
       end
+
+      -- local timeStep = 1.0 / 30.0
+      local velocityIterations = 6
+      local positionIterations = 2
+
+      if step_stat.gravity then
+         local gravx, gravy = unpack (step_stat.gravity)
+         world:SetGravity (b2Vec2 (gravx * 10, gravy * 10))
+      else
+         print ("NO step_stat.gravity")
+      end
+      if step_stat.time_step then
+         world:Step(step_stat.time_step, velocityIterations, positionIterations)
+      else
+         print ("NO time_step")
+      end
+      world:ClearForces()
 
       key_stat = {}
 
@@ -161,7 +180,6 @@ function load_page (tex_path, data_path)
    print ("b2World: " .. tostring (b2World))
    print ("b2Vec2: " .. tostring (b2Vec2))
 
-   world = b2World(b2Vec2(0, -10), false)
    local images = {}
    local doc = xmlParseFile (data_path)
 
@@ -217,13 +235,8 @@ function proc_draw (page)
 end
 
 function step (timeStep, gravx, gravy)
-   -- local timeStep = 1.0 / 30.0
-   local velocityIterations = 6
-   local positionIterations = 2
-
-   world:SetGravity (b2Vec2 (gravx * 10, gravy * 10))
-   world:Step(timeStep, velocityIterations, positionIterations)
-   world:ClearForces()
+   step_stat.gravity = {gravx, gravy}
+   step_stat.time_step = timeStep
 end
 
 function touch (x, y)
