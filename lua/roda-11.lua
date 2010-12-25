@@ -15,15 +15,9 @@ print (tostring (glMatrixMode))
 print (tostring (GL_MODELVIEW))
 
 local world
-local edge_body
-local goya = {}
-local joint1
-local joint2
 local size
 local scale
 local key_stat = {}
-
-local doc
 
 function M (name, ...)
    local preds = {...}
@@ -157,7 +151,7 @@ function proc_init (tex_path, data_path)
 
    world = b2World(b2Vec2(0, -10), false)
    local images = {}
-   doc = xmlParseFile (data_path)
+   local doc = xmlParseFile (data_path)
 
    local root = doc.children
    print ("root: " .. tostring (root))
