@@ -198,6 +198,20 @@ end
 
 function proc_draw (page)
    local tex, images = page.tex, page.images
+   local proc = page.proc or
+      function ()
+         for i, img in ipairs (images) do
+            glPushMatrix ()
+            glTranslatef(0, 0, i * 0.01 - 10)
+            for k, tile in ipairs (img.tiles) do
+               local id = tile.id
+               local x = id % 32
+               local y = (id - x) / 32
+               tex:drawInRect(tile.off_x, 1024 - tile.off_y - 32, 0, x * 32, y * 32, 32, 32)
+            end
+            glPopMatrix ()
+         end
+      end
 
    glClearColor(0.3, 0.3, 0.3, 1)
    glClear(GL_COLOR_BUFFER_BIT)
@@ -216,17 +230,7 @@ function proc_draw (page)
    glScalef (scale, scale, 1)
    glTranslatef(0, 0, 0)
 
-   for i, img in ipairs (images) do
-      glPushMatrix ()
-      glTranslatef(0, 0, i * 0.01 - 10)
-      for k, tile in ipairs (img.tiles) do
-         local id = tile.id
-         local x = id % 32
-         local y = (id - x) / 32
-         tex:drawInRect(tile.off_x, 1024 - tile.off_y - 32, 0, x * 32, y * 32, 32, 32)
-      end
-      glPopMatrix ()
-   end
+   proc ()
 
    glPopMatrix ()
 
