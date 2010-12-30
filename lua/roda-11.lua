@@ -212,15 +212,6 @@ function load_page (n)
 
    print ("load_page:", tex_path, data_path)
 
-   -- local images = {}
-   -- local doc = xmlParseFile (data_path)
-
-   -- local root = doc.children
-   -- print ("root: " .. tostring (root))
-
-   -- local matresult = extract_page_data (images) (root)
-   -- print ("matresult: " .. tostring (matresult))
-
    local tex = {}
    if type (tex_path) == "string" then
       tex_path = {tex_path}
