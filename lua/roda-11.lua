@@ -211,13 +211,9 @@ function load_page (n)
    local tex_path, images = load_page_helper (n)
 
    print ("load_page:", tex_path, data_path)
+   assert (type (tex_path) == "table")
 
    local tex = {}
-   if type (tex_path) == "string" then
-      tex_path = {tex_path}
-   end
-
-   assert (type (tex_path) == "table")
 
    for i, path in ipairs (tex_path) do
       table.insert (tex, gltexture.GLTextureAdapter(path))
