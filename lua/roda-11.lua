@@ -104,11 +104,46 @@ function extract_page_data (images)
    return mat
 end
 
+function read_page_data (data_path)
+   local images = {}
+   local doc = xmlParseFile (getDir () .. "/" .. data_path)
+
+   local root = doc.children
+   print ("root: " .. tostring (root))
+
+   local matresult = extract_page_data (images) (root)
+   print ("matresult: " .. tostring (matresult))
+
+   return images
+end
+
+function load_page_helper (n)
+   local images = read_page_data (string.format ("%d-compacted.xml", n))
+   local tiles = images[#images].tiles
+   local numtile = tiles[#tiles].id
+
+   print ("load_page_helper", n, images, tiles, numtile)
+
+   if numtile > 32 * 32 then
+      local mod = numtile % (32 * 32)
+      local numtex = (numtile - mod) / (32 * 32)
+      assert (numtex > 0)
+      local dest = {}
+      for i = 0, numtex do
+         table.insert (dest, string.format ("%d-texture-%d.png", n, i))
+      end
+      print ("load_page_helper", n, unpack (dest))
+      return dest, images
+   else
+      return {string.format ("%d-texture.png", n)}, images
+   end
+end
+
 function proc ()
    proc_init ()
 
-   local page3 = load_page ({"5-texture-0.png", "5-texture-1.png"}, getDir () .. "/5-compacted.xml")
-   -- local page3 = load_page ("13-texture.png", getDir () .. "/13-compacted.xml")
+   local page3 = load_page (load_page_helper (5))
+   -- local page3 = load_page ({"5-texture-0.png", "5-texture-1.png"}, read_page_data ("5-compacted.xml"))
 
    local page11
    local page = page3
@@ -120,7 +155,8 @@ function proc ()
          page = page3
       elseif key_stat.swipe_left then
          if not page11 then
-            page11 = load_page ("19-texture.png", getDir () .. "/19-compacted.xml")
+            page11 = load_page (load_page_helper (19))
+            -- page11 = load_page ("19-texture.png", read_page_data ("19-compacted.xml"))
          end
          page = page11
       end
@@ -173,8 +209,17 @@ function proc_init ()
    print "proc_init() done"
 end
 
-function load_page (tex_path, data_path)
+function load_page (tex_path, images)
    print ("load_page:", tex_path, data_path)
+
+   -- local images = {}
+   -- local doc = xmlParseFile (data_path)
+
+   -- local root = doc.children
+   -- print ("root: " .. tostring (root))
+
+   -- local matresult = extract_page_data (images) (root)
+   -- print ("matresult: " .. tostring (matresult))
 
    local tex = {}
    if type (tex_path) == "string" then
@@ -186,18 +231,6 @@ function load_page (tex_path, data_path)
    for i, path in ipairs (tex_path) do
       table.insert (tex, gltexture.GLTextureAdapter(path))
    end
-
-   print ("b2World: " .. tostring (b2World))
-   print ("b2Vec2: " .. tostring (b2Vec2))
-
-   local images = {}
-   local doc = xmlParseFile (data_path)
-
-   local root = doc.children
-   print ("root: " .. tostring (root))
-
-   local matresult = extract_page_data (images) (root)
-   print ("matresult: " .. tostring (matresult))
 
    return {tex = tex, images = images}
 end
