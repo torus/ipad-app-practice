@@ -107,7 +107,8 @@ end
 function proc ()
    proc_init ()
 
-   local page3 = load_page ("3-texture.png", getDir () .. "/3-compacted.xml")
+   local page3 = load_page ({"5-texture-0.png", "5-texture-1.png"}, getDir () .. "/5-compacted.xml")
+   -- local page3 = load_page ("13-texture.png", getDir () .. "/13-compacted.xml")
 
    local page11
    local page = page3
@@ -119,7 +120,7 @@ function proc ()
          page = page3
       elseif key_stat.swipe_left then
          if not page11 then
-            page11 = load_page ("11-texture.png", getDir () .. "/11-compacted.xml")
+            page11 = load_page ("19-texture.png", getDir () .. "/19-compacted.xml")
          end
          page = page11
       end
@@ -175,7 +176,16 @@ end
 function load_page (tex_path, data_path)
    print ("load_page:", tex_path, data_path)
 
-   local tex = gltexture.GLTextureAdapter(tex_path)
+   local tex = {}
+   if type (tex_path) == "string" then
+      tex_path = {tex_path}
+   end
+
+   assert (type (tex_path) == "table")
+
+   for i, path in ipairs (tex_path) do
+      table.insert (tex, gltexture.GLTextureAdapter(path))
+   end
 
    print ("b2World: " .. tostring (b2World))
    print ("b2Vec2: " .. tostring (b2Vec2))
@@ -205,9 +215,12 @@ function proc_draw (page)
             glTranslatef(0, 0, i * 0.01 - 10)
             for k, tile in ipairs (img.tiles) do
                local id = tile.id
-               local x = id % 32
-               local y = (id - x) / 32
-               tex:drawInRect(tile.off_x, 1024 - tile.off_y - 32, 0, x * 32, y * 32, 32, 32)
+               local id_l = id % (32 * 32)
+               local texn = (id - id_l) / (32 * 32)
+               local x = id_l % 32
+               local y = ((id_l - x) / 32) % 32
+               -- print (string.format ("id: %d, id_l: %d, texn: %d, x: %d, y: %d", id, id_l, texn, x, y))
+               tex[texn + 1]:drawInRect(tile.off_x, 1024 - tile.off_y - 32, 0, x * 32, y * 32, 32, 32)
             end
             glPopMatrix ()
          end
