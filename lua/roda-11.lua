@@ -142,8 +142,7 @@ end
 function proc ()
    proc_init ()
 
-   local page3 = load_page (load_page_helper (5))
-   -- local page3 = load_page ({"5-texture-0.png", "5-texture-1.png"}, read_page_data ("5-compacted.xml"))
+   local page3 = load_page (5)
 
    local page11
    local page = page3
@@ -155,8 +154,7 @@ function proc ()
          page = page3
       elseif key_stat.swipe_left then
          if not page11 then
-            page11 = load_page (load_page_helper (19))
-            -- page11 = load_page ("19-texture.png", read_page_data ("19-compacted.xml"))
+            page11 = load_page (19)
          end
          page = page11
       end
@@ -209,7 +207,9 @@ function proc_init ()
    print "proc_init() done"
 end
 
-function load_page (tex_path, images)
+function load_page (n)
+   local tex_path, images = load_page_helper (n)
+
    print ("load_page:", tex_path, data_path)
 
    -- local images = {}
