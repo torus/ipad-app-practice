@@ -142,21 +142,30 @@ end
 function proc ()
    proc_init ()
 
-   local page3 = load_page (5)
+   local current_page = 1
+   local pages = {}
 
-   local page11
-   local page = page3
+   -- local page3 = load_page (5)
+
+   -- local page11
+   -- local page = page3
 
    local world = b2World(b2Vec2(0, -10), false)
 
    while true do
       if key_stat.swipe_right then
-         page = page3
+         current_page = math.max (current_page - 1, 1)
+         -- page = page3
       elseif key_stat.swipe_left then
-         if not page11 then
-            page11 = load_page (19)
-         end
-         page = page11
+         current_page = math.min (current_page + 1, 25)
+         -- if not page11 then
+         --    page11 = load_page (19)
+         -- end
+         -- page = page11
+      end
+
+      if not pages[current_page] then
+         pages[current_page] = load_page (current_page)
       end
 
       -- local timeStep = 1.0 / 30.0
@@ -178,7 +187,8 @@ function proc ()
 
       key_stat = {}
 
-      proc_draw (page)
+      proc_draw (pages[current_page])
+      -- proc_draw (page)
       coroutine.yield ()
    end
 end
